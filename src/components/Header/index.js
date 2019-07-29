@@ -55,7 +55,7 @@ class Header extends PureComponent {
             <div className="header">
                 <div className="header-top">
                     <span>{userName}</span>
-                    <Button type="primary" onClick={this.handleLogout}>退出</Button>
+                    <Button type="link" onClick={this.handleLogout}>退出</Button>
                 </div>
                 <Row className="breadcrumb">
                     <Col span={4} className="breadcrumb-title">首页</Col>
