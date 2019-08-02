@@ -4,7 +4,9 @@ import Admin from './admin';
 import App from './App';
 import Login from './pages/login';
 import Home from './pages/home';
-import Buttons from './pages/ui/button';
+import Buttons from './pages/ui/buttons';
+import Modals from './pages/ui/modals';
+import NoPage from './pages/404'
 
 class Router extends Component {
     render() {
@@ -12,16 +14,18 @@ class Router extends Component {
             <HashRouter>
                 <App>
                     <Switch>
-                        <Route path="/login" component={Login}></Route>
+                        <Route path="/login" component={Login}/>
                         <Route path="/" render={() =>
                             <Admin>
                                 <Switch>
                                     <Route path='/home' component={Home}/>
                                     <Route path='/ui/buttons' component={Buttons}/>
+                                    <Route path='/ui/modals' component={Modals}/>
+                                    <Route component={NoPage}/>
                                 </Switch>
                             </Admin>
-                        }>
-                        </Route>
+                        }/>
+
                     </Switch>
                 </App>
             </HashRouter>
