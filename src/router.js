@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {HashRouter, Route, Switch} from 'react-router-dom';
+import {HashRouter, Route, Switch, Redirect} from 'react-router-dom';
 import Admin from './admin';
 import App from './App';
 import Login from './pages/login';
@@ -14,7 +14,7 @@ import Gallery from './pages/ui/gallery';
 import Carousel from './pages/ui/carousel';
 import FormRegister from './pages/form/register';
 import FormLogin from './pages/form/login';
-import NoPage from './pages/404'
+// import NoPage from './pages/404'
 
 class Router extends Component {
     render() {
@@ -37,7 +37,8 @@ class Router extends Component {
                                     <Route path='/ui/carousel' component={Carousel}/>
                                     <Route path='/form/reg' component={FormRegister}/>
                                     <Route path='/form/login' component={FormLogin}/>
-                                    <Route component={NoPage}/>
+                                    <Redirect to='/home' />
+                                    {/*<Route component={NoPage}/>*/}
                                 </Switch>
                             </Admin>
                         }/>
