@@ -14,6 +14,7 @@ import Gallery from './pages/ui/gallery';
 import Carousel from './pages/ui/carousel';
 import FormRegister from './pages/form/register';
 import FormLogin from './pages/form/login';
+import TableBasic from './pages/table/basicTable';
 // import NoPage from './pages/404'
 
 class Router extends Component {
@@ -37,6 +38,7 @@ class Router extends Component {
                                     <Route path='/ui/carousel' component={Carousel}/>
                                     <Route path='/form/reg' component={FormRegister}/>
                                     <Route path='/form/login' component={FormLogin}/>
+                                    <Route path='/table/basic' component={TableBasic}/>
                                     <Redirect to='/home' />
                                     {/*<Route component={NoPage}/>*/}
                                 </Switch>
