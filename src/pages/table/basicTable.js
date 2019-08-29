@@ -1,11 +1,15 @@
 import React, {PureComponent, Fragment} from 'react';
-import {Table, Card} from 'antd';
-import axios from 'src/axios/'
+import {Table, Card, Button, message, Modal} from 'antd';
+import axios from 'src/axios/';
+import Utils from 'src/utils';
 
 class BasicTable extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            selectedRowKeys: [],
+            selectedCheckRowKeys: [],
+            selectedRows: null,
             columns: [{
                 title: 'id',
                 dataIndex: 'id'
@@ -65,16 +69,21 @@ class BasicTable extends PureComponent {
         this.requestList()
     }
 
+    param = {
+        page: 1
+    };
+
+    //列表数据请求封装
     requestList = () => {
+        let _this = this;
         axios.ajax({
             url: '/table/list',
             data: {
-                param: {
-                    page: 1
+                params: {
+                    page: this.param.page
                 }
             }
         }).then((res) => {
-            console.log(res)
             if (res.code === 0) {
                 let list = [];
                 res.result && res.result.list && res.result.list.map((item, index) => {
@@ -84,13 +93,22 @@ class BasicTable extends PureComponent {
                     });
                     return list
                 });
+                console.log('res',res);
                 this.setState({
-                    dataSource: list
+                    dataSource: list,
+                    selectedRowKeys: [],
+                    selectedCheckRowKeys: [],
+                    selectedRows: null,
+                    pagination: Utils.pagination(res, (current) => {
+                        _this.param.page = current;
+                        this.requestList()
+                    })
                 })
             }
         })
     };
 
+    //radio 单行选择操作
     onRowClick = (record, index) => {
         let selectKey = [index];
         this.setState({
@@ -98,8 +116,26 @@ class BasicTable extends PureComponent {
         })
     };
 
+    //checkbox 删除操作
+    handleDelete = () => {
+        const {selectedCheckRowKeys} = this.state;
+        console.log('selectedRowKeys', selectedCheckRowKeys);
+        if (selectedCheckRowKeys.length <= 0) {
+            message.warning('请选择一条数据');
+            return false
+        }
+        Modal.confirm({
+            title: '删除提示',
+            content: `您确定要删除这些数据吗？${selectedCheckRowKeys.join(',')}`,
+            onOk: () => {
+                message.success('删除成功');
+                this.requestList();
+            }
+        })
+    };
+
     render() {
-        const {columns, dataSource, selectedRowKeys} = this.state;
+        const {columns, dataSource, selectedRowKeys, selectedCheckRowKeys} = this.state;
         const rowSelection = {
             type: 'radio',
             selectedRowKeys
@@ -107,11 +143,11 @@ class BasicTable extends PureComponent {
 
         const rowCheckSelection = {
             type: 'checkbox',
-            selectedRowKeys,
+            selectedRowKeys: selectedCheckRowKeys,
             onChange: (selectedRowKeys, selectedRows) => {
                 console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
                 this.setState({
-                    selectedRowKeys,
+                    selectedCheckRowKeys: selectedRowKeys,
                     selectedRows
                 })
             },
@@ -153,11 +189,14 @@ class BasicTable extends PureComponent {
                     />
                 </Card>
                 <Card title="基础表单-多选-分页" style={{marginTop: 10}}>
+                    <div>
+                        <Button type="primary" onClick={this.handleDelete}>删除</Button>
+                    </div>
                     <Table
                         columns={columns}
                         dataSource={dataSource}
                         rowSelection={rowCheckSelection}
-                        pagination={true}
+                        pagination={this.state.pagination}
                     />
                 </Card>
             </Fragment>

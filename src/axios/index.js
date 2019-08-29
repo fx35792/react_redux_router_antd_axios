@@ -18,25 +18,35 @@ export default class Axios {
     }
 
     static ajax(options) {
+        let loading;
+        if (options.data && options.data.isShowLoading !== false) {
+            loading = document.getElementById('ajaxLoading');
+            loading.style.display = 'block';
+        }
+        let baseUrl = 'https://www.easy-mock.com/mock/5d5fb2ce9b58ad2249ff6c2b/mockapi';
         return new Promise((resolve, reject) => {
-            let baseUrl = 'https://www.easy-mock.com/mock/5d5fb2ce9b58ad2249ff6c2b/mockapi';
+            // console.log('options', options);
             axios({
                 baseURL: baseUrl,
                 url: options.url,
                 method: options.method || 'get' || 'post',
-                timeout: 5000,
-                param: (options.data && options.data.params) || '',
+                timeout: 30000,
+                params: (options.data && options.data.params) || '',
                 header: {},
             }).then((response) => {
+                if (options.data && options.data.isShowLoading !== false) {
+                    loading = document.getElementById('ajaxLoading');
+                    loading.style.display = 'none';
+                }
                 if (response.status === 200) {
                     let res = response.data;
                     if (res.code === 0) {
                         resolve(res)
                     } else {
-                        message.warning(res.data.msg)
+                        message.warning(res.msg)
                     }
                 } else {
-                    reject(response.data)
+                    reject(response)
                 }
             })
         })
