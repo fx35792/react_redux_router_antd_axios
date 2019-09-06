@@ -1,5 +1,5 @@
 import React, {Fragment, PureComponent} from 'react';
-import {Card, Table, Button, Modal, message, Badge} from 'antd';
+import {Badge, Button, Card, message, Modal, Table} from 'antd';
 import axios from 'src/axios/'
 
 class HighTable extends PureComponent {
@@ -307,7 +307,6 @@ class HighTable extends PureComponent {
                 params: {
                     page: this.param.page
                 },
-                isShowLoading: true
             }
         }).then((res) => {
             if (res.code === 0) {

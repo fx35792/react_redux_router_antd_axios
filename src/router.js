@@ -16,6 +16,7 @@ import FormRegister from './pages/form/register';
 import FormLogin from './pages/form/login';
 import TableBasic from './pages/table/basicTable';
 import TableHigh from './pages/table/highTable';
+import Rich from './pages/rich';
 
 // import NoPage from './pages/404'
 
@@ -42,6 +43,7 @@ class Router extends Component {
                                     <Route path='/form/login' component={FormLogin}/>
                                     <Route path='/table/basic' component={TableBasic}/>
                                     <Route path='/table/high' component={TableHigh}/>
+                                    <Route path='/rich' component={Rich}/>
                                     <Redirect to='/home'/>
                                     {/*<Route component={NoPage}/>*/}
                                 </Switch>
