@@ -17,6 +17,7 @@ import FormLogin from './pages/form/login';
 import TableBasic from './pages/table/basicTable';
 import TableHigh from './pages/table/highTable';
 import Rich from './pages/rich';
+import City from './pages/city';
 
 // import NoPage from './pages/404'
 
@@ -44,6 +45,7 @@ class Router extends Component {
                                     <Route path='/table/basic' component={TableBasic}/>
                                     <Route path='/table/high' component={TableHigh}/>
                                     <Route path='/rich' component={Rich}/>
+                                    <Route path='/city' component={City}/>
                                     <Redirect to='/home'/>
                                     {/*<Route component={NoPage}/>*/}
                                 </Switch>
